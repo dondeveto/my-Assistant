@@ -1,0 +1,13 @@
+TO DO LIST :
+-------------------
+add voice commands
+calculator
+word definations
+face recognition
+weather  ----------done
+
+
+
+
+
+GUI
