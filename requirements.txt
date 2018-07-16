@@ -1,1 +1,3 @@
 CMU Sphinx
+python-vlc-3.0.102
+music_scraper

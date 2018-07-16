@@ -1,11 +1,13 @@
 import sys
 import requests 
 import json
-import mod
+import mod, wallpaper
 import threading                                    #
 from threading import Thread
 import pyttsx
 import datetime, time
+
+commands = ['weather', 'music']
 
 def speak(x):
     engine = pyttsx.init()
@@ -13,19 +15,39 @@ def speak(x):
     engine.runAndWait()
 
 def dispatcher(command, arg):
+    
     """ Does things """
+    #if command in commands:
+    if command == "define":
+        speak(mod.defination(command))
+        
+    if command == "wallpaper":
+        speak(wallpaper.wallpaper(arg))
+        print(wallpaper.wallpaper(arg))
+    
+    if command == "":
+        print("going to sleep...")
+        time.sleep(10)
+        
     if command == "weather":
         print("Here's the weather forcast for "+arg.capitalize())
         x =mod.weather(arg)
-        x=x.replace("&deg;C", " Degrees Celsius")
         Thread(target = print(x)).start()
         Thread(target = speak(x)).start()
         
-    elif command == "bye":
+    if command == "music":
+        mod.stream_music()
+        
+    if command == "bye":
         print("Goodbye! Have a good day!")
         return
-    
-    prompter()
+
+    if command == "minimize":
+       mod.hide_show("hide")
+        
+    if command == "maximize":
+        mod.hide_show("show")
+    #prompter()
 
 
 def prompter():
@@ -34,18 +56,26 @@ def prompter():
     speak("How may I help you today ?")
     time.sleep(1)
     command =mod.listener()
+    if command == "minimize" or command =="maximize":
+        dispatcher(command, None)
+    
     if command == "weather":
         print("Sure thing! What city? :")
         speak("Sure thing! What city")
+        time.sleep(1)
         city = mod.listener()
         dispatcher(command, city)
-    if command == "square":
-        num = input("I love math! What number?")
-        dispatcher(command, num)
+
+        
+    if command == "music":
+        dispatcher(command, "none")
+
+    if command == "wallpaper":
+        dispatcher(command, None)
+        
     if command == "stocks": # TODO
         pass
-    elif command == "dance":
-        dance()
+    
     else:
         dispatcher(command, "")
 
